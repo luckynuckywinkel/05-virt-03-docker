@@ -81,7 +81,21 @@ https://hub.docker.com/r/luckynucky/my_nginx_image
 - Добавьте ещё один файл в папку ```/data``` на хостовой машине.
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
 
-### Решение:  
+### Решение:    
+
+- Запустим несколько контейнеров и прокинем в них одну и ту же папку. Как вы видите на скриншоте, сначала несколько моих контейнеров сразу завершили свою работу, т.к. никакой активности в них не было. Почитав, что обычно при этом делают, я запустил бесконечный процесс **"tail -f /dev/null"**, чтобы в них была симуляция рнекоей активности:
+
+![devnull](img/6.JPG)   
+
+- создадим несколько файлов разными способами (я создал пустые файлы, наверное, нужно было их чем-то заполнить, но, думаю, это не так критично):
+
+```
+root@elastic:/home/vagrant/docker_project# docker exec -it 7472b270ab60 touch /data/random_txt_file1.txt <-- контейнер с centos
+root@elastic:/home/vagrant/docker_project# touch ./data/random_txt_file2.txt <-- папка на хосте
+root@elastic:/home/vagrant/docker_project# docker exec -it 263a2746b20e ls /data <-- контейнер с Debian
+random_txt_file1.txt  random_txt_file2.txt
+```
+
 
 ---
 
